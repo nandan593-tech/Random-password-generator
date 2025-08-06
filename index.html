@@ -1,0 +1,72 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Password Generator</title>
+    <link rel="stylesheet" href="style.css">
+ </head>
+ <body>
+   <div class="container">
+        <div class="P-header">
+            <h1>Random password generator</h1>
+               <input type="text" id="password" readonly>
+               <button id="copy">Copy</button>
+      <div class="P-body">
+            <label for="p-length">Password Length: </label>
+            <input type="number" id="p-length" min="4" max="20" value="10">
+            <label for="p-uppercase">Uppercase: </label>
+             <input type="checkbox" id="p-uppercase" >
+           <label for="p-lowercase">Lowercase: </label>
+           <input type="checkbox" id="p-lowercase" >
+     
+              <label for="p-numbers">Numbers: </label>
+             <input type="checkbox" id="p-numbers" >
+             <label for="p-symbols">Symbols: </label>
+              <input type="checkbox" id="p-symbols" >
+                    <button class="submit" id="submit">Generate Password</button>
+      </div>
+</div>
+<script>
+   const charsUcase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+         charsLcase = "abcdefghijklmnopqrstuvwxyz",
+         charsNumbers = "0123456789",
+         charsSymbols = "!@#$%^&*()_+[]{}|;:,.<>?";
+
+   let password = document.getElementById('password');
+   let pLength = document.getElementById('p-length');
+   let pUppercase = document.getElementById('p-uppercase');
+   let pLowercase = document.getElementById('p-lowercase');
+   let pNumbersBox = document.getElementById('p-numbers');
+   let pSymbolsBox = document.getElementById('p-symbols');
+   let submit = document.getElementById('submit');
+   let copy = document.getElementById('copy');
+
+   submit.addEventListener('click', () => {
+      let initialPassword = "";
+      if(pUppercase.checked) initialPassword += charsUcase;
+      if(pLowercase.checked) initialPassword += charsLcase;
+      if(pNumbersBox.checked) initialPassword += charsNumbers;
+      if(pSymbolsBox.checked) initialPassword += charsSymbols;
+      if(initialPassword.length === 0) {
+         password.value = "Select at least one option!";
+         return;
+      }
+      password.value = generatePassword(parseInt(pLength.value), initialPassword);
+   });
+
+   function generatePassword(l, pass) {
+      let finalPass = "";
+      for (let i = 0; i < l; i++) {
+         finalPass += pass.charAt(Math.floor(Math.random() * pass.length));
+      }
+      return finalPass;
+   }
+   copy.addEventListener('click', () => {
+      password.select();
+      document.execCommand('copy');
+   });
+
+</script>
+ </body>
+ </html>
